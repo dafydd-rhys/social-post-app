@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('website_posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->text('title');
             $table->text('content');
             $table->timestamps();
         });

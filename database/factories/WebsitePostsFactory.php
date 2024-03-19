@@ -14,6 +14,7 @@ class WebsitePostsFactory extends Factory
     {
         return [
             'user_id' => User::all()->random()->id,
+            'title' => $this->faker->sentence(),
             'content' => $this->faker->paragraph(),
             'created_at' => now(),
             'updated_at' => now(),

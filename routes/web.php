@@ -1,14 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/post/{id?}', function ($post_id) {
-    return view('post');
-});
+Route::get('/post/{postId}', [PostController::class, 'show'])->name('post.show');
 
 Route::get('/user/{user_id?}', function ($user_id) {
     return view('user');

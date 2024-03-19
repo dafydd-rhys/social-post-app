@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0b1416;
+    padding: 3px;
+}
+.card {
+    border-radius: 15px;
+    padding: 15px;
+    background-color: #0f1c1f;
+    border-color: black;
+    border-width: 5px;
+    overflow: hidden;
+}
+.card-content {
+    width: 400px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 10px 5px;
+}
+.user {
+    font-size: 12px;
+    padding-bottom: 7.5px;
+    color: rgb(175, 175, 175);
+}
+.post-title {
+    padding-bottom: 5px;
+    color: white;
+    overflow: hidden;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+.post-content {
+    color: rgb(175, 175, 175);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+    padding-bottom: 5px;
+    padding-top: 2.5px;
+}
+
