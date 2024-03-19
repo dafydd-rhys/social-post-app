@@ -52,7 +52,7 @@
                 <input type="hidden" id="currentPage" value="1">
 
                 @foreach($posts as $post)
-                    @include('card', ['post' => $post])
+                    @include('post-card', ['post' => $post])
                 @endforeach    
             </div>
 

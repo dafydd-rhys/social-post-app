@@ -8,6 +8,8 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/post/{postId}', [PostController::class, 'show'])->name('post.show');
 
+Route::get('/load-comments/{postId}', [PostController::class, 'loadComments']);
+
 Route::get('/user/{user_id?}', function ($user_id) {
     return view('user');
 });
