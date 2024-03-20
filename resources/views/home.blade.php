@@ -3,10 +3,13 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{{ asset('home.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/home.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/post-card.css') }}">
         <script src="https://kit.fontawesome.com/84b3df78f4.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="js/pagination.js"></script>
         <script>
+    
             $(document).ready(function() {
                 $('#searchInput').on('keyup', function() {
                     var searchText = $(this).val().toLowerCase();
@@ -19,11 +22,6 @@
                             $(this).show();
                         }
                     });
-                });
-
-                $('.show-more').on('click', function() {
-                    var currentPage = parseInt($('#currentPage').val());
-                    
                 });
             });
         </script>
@@ -46,17 +44,33 @@
                 <a href="#">Login/Create</a>
             </nav>
         </header>
+        <input type="hidden" id="currentPage" value="1">
 
         <div class="posts">
             <div class="post-container">
-                <input type="hidden" id="currentPage" value="1">
-
+    
                 @foreach($posts as $post)
-                    @include('post-card', ['post' => $post])
+                <a href="{{ route('post.show', ['postId' => $post->id]) }}" class="card-link">
+                    <div class="card">
+                        <div class="card-content">
+                            <p class="user">u/Stry • 3 hr. ago</p>
+                            <h2 class="post-title">{{ $post->title }}</h2>
+                            <p class="post-content">{{ $post->content }}</p>
+                        </div>
+                    </div>
+                </a>
                 @endforeach    
             </div>
-
-            <button class="show-more">Show More</button>
+            
+            <div class="pagination">
+                <button class="page-button" onclick="prevPage()">
+                    <i class="fa-solid fa-arrow-left"></i>  
+                </button>
+                <text class="page-count" id="pageCount">1</text>
+                <button class="page-button" onclick="nextPage()">
+                    <i class="fa-solid fa-arrow-right"></i>  
+                </button>
+            </div>     
         </div>
     </body>
 </html>

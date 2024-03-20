@@ -4,10 +4,43 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" type="text/css" href="{{ asset('post.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('home.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/post.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/home.css') }}">
         <script src="https://kit.fontawesome.com/84b3df78f4.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+$(document).ready(function() {
+    $('.comment-button').click(function() {
+        var postId = "{{ $post->id }}";
+        var userId = 1; 
+        var commentContent = $('.comment-box').val();
+        var token = "{{ csrf_token() }}";
+
+        $.ajax({
+            url: '/save',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': token
+            },
+            data: {
+                user_id: userId,
+                website_posts_id: postId,
+                content: commentContent
+            },
+            success: function(response) {
+                console.log(response);
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+
+</script>
+
     </head>
     <body>
         <header class="main">

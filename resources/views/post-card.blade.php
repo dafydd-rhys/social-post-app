@@ -4,9 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" type="text/css" href="{{ asset('post-card.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/post-card.css') }}">
     </head>
     <body>
+    @foreach($posts as $post)
         <a href="{{ route('post.show', ['postId' => $post->id]) }}" class="card-link">
             <div class="card">
                 <div class="card-content">
@@ -16,5 +17,6 @@
                 </div>
             </div>
         </a>
+        @endforeach
     </body>
 </html>

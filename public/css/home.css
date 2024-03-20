@@ -98,21 +98,32 @@ body {
     gap: 20px;
 }
 
-.show-more {
+.page-button:hover {
+    background-color: #f05a24;
+}
+
+.pagination {
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+    margin-top: 10px;
+}
+
+.page-button {
     border: none;
     color: white;
     border-radius: 6px;
-    margin-top: 20px;
-    width: 10%;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-color: #f15015;
     font-weight: 600;
     font-size: 18px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
-.show-more:hover {
-    background-color: #f05a24;
+.page-count {
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    margin-left: 5px;
+    margin-right: 5px;
 }

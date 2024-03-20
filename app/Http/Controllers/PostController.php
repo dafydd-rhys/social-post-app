@@ -26,4 +26,13 @@ class PostController extends Controller
         return view('post', ['post' => $post, 'comments' => $comments]);
     }
 
+    public function getPage(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = 12;
+        $posts = WebsitePosts::skip(($page - 1) * $perPage)->take($perPage)->get();
+
+        return view('post-card', ['posts' => $posts]);
+    }   
+
 }
