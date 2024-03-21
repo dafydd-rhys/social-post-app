@@ -39,9 +39,10 @@
             </div>
 
             <nav class="navbar">
-                <a href="#">Home</a>
-                <a href="#">Post</a>
-                <a href="#">Login/Create</a>
+                <a href="{{ url('/dashboard') }}">Account</a>
+                <a href="{{ url('/') }}">Post</a>
+                <a href="{{ url('/login') }}">Login</a>
+                <a href="{{ url('/register') }}">Create</a>
             </nav>
         </header>
         <input type="hidden" id="currentPage" value="1">
