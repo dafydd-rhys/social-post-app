@@ -15,6 +15,7 @@ body {
 }
 
 .comment-card {
+    width: 570px;
     padding: 15px;
     background-color: #0f1c1f;
     border-color: black;
@@ -24,7 +25,7 @@ body {
 }
 
 .comment-content {
-    width: 1000px;
+    width: 570px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -32,29 +33,19 @@ body {
 }
 
 .comment-user {
+    width: 570px;
     font-size: 12px;
     padding-bottom: 7.5px;
     color: rgb(175, 175, 175);
 }
 
-.comment-title {
-    padding-bottom: 5px;
-    color: white;
-    overflow: hidden;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-}
-
 .comment-content {
+    width: 570px;
     color: rgb(175, 175, 175);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     display: -webkit-box;
-    -webkit-line-clamp: 7;
     -webkit-box-orient: vertical;
     padding-bottom: 5px;
     padding-top: 2.5px;

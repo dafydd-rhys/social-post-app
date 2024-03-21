@@ -54,9 +54,10 @@ $(document).ready(function() {
             </div>
 
             <nav class="navbar">
-                <a href="#">Home</a>
-                <a href="#">Post</a>
-                <a href="#">Login/Create</a>
+                <a href="{{ url('/') }}">Home</a>
+                <a href="{{ url('/dashboard') }}">Account</a> 
+                <a href="{{ url('/login') }}">Login</a>
+                <a href="{{ url('/register') }}">Create</a>
             </nav>
         </header>
 
