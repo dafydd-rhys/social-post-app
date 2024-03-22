@@ -44,7 +44,12 @@ $(document).ready(function() {
     </head>
     <body>
         <header class="main">
-            <a href="#" class="logo">Logo</a>
+            <a href="{{ url('/') }}" class="app-container">
+                <div>
+                    <img src="{{ asset('images/logo.png') }}" alt="Social App Logo" class="logo-image">
+                </div>
+                <div class="logo">SOCIAL-POST-APP</div>
+            </a>
 
             <div class="box">
                 <input type="text" id="searchInput" placeholder="Search...">
@@ -54,10 +59,7 @@ $(document).ready(function() {
             </div>
 
             <nav class="navbar">
-                <a href="{{ url('/') }}">Home</a>
-                <a href="{{ url('/dashboard') }}">Account</a> 
-                <a href="{{ url('/login') }}">Login</a>
-                <a href="{{ url('/register') }}">Create</a>
+                <a href="{{ url('/profile') }}">Account</a> 
             </nav>
         </header>
 
@@ -71,7 +73,9 @@ $(document).ready(function() {
                 </a>
 
                 <div class="card-content">
-                    <p class="user">u/Stryzhh • 3 hr. ago</p>
+                    <a href="/user/{{ $post->user->id }}" class="user">
+                        u/{{ $user->name }} • {{ $post->created_at }}
+                    </a>
                     <h2 class="post-title">{{ $post->title }}</h2>
                     <p class="post-content">{{ $post->content }}</p>
                 </div>

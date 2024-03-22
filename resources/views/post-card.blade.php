@@ -11,7 +11,7 @@
         <a href="{{ route('post.show', ['postId' => $post->id]) }}" class="card-link">
             <div class="card">
                 <div class="card-content">
-                    <p class="user">u/Stry • 3 hr. ago</p>
+                    <p class="user">u/{{ $post->user->name }} • {{ $post->created_at }}</p>
                     <h2 class="post-title">{{ $post->title }}</h2>
                     <p class="post-content">{{ $post->content }}</p>
                 </div>

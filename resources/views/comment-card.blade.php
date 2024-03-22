@@ -8,14 +8,15 @@
     </head>
     
     <body>
-        <a href="" class="card-link">
+        <a class="card-link">
             <div class="comment-card">
                 <div class="comment-content">
-                    <p class="comment-user">u/Str • {{ $comment->created_at }}</p>
+                    <a href="/user/{{ $comment->user->id }}" class="comment-user">
+                        u/{{ $comment->user->name }} • {{ $comment->created_at }}
+                    </a>
                     <p class="comment-content">{{ $comment->content }}</p>
                 </div>
             </div>
         </a>
-
     </body>
 </html>

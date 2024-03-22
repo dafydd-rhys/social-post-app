@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\WebsitePosts;
 use App\Models\Comments;
+use App\Models\User; // Import the User model if not already imported
 
 class PostController extends Controller
 {
@@ -23,13 +24,22 @@ class PostController extends Controller
             abort(404);
         }
     
-        return view('post', ['post' => $post, 'comments' => $comments]);
+        // Fetch the user associated with each comment
+        foreach ($comments as $comment) {
+            $comment->user = User::find($comment->user_id);
+        }
+
+        // Fetch the user who created the post
+        $user = User::find($post->user_id);
+    
+        return view('post', ['post' => $post, 'comments' => $comments, 'user' => $user]);
     }
+    
 
     public function getPage(Request $request)
     {
         $page = $request->input('page', 1);
-        $perPage = 12;
+        $perPage = 9;
         $posts = WebsitePosts::skip(($page - 1) * $perPage)->take($perPage)->get();
 
         return view('post-card', ['posts' => $posts]);

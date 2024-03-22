@@ -29,8 +29,14 @@
 
     <body>
         <header class="main">
-            <a href="#" class="logo">Logo</a>
 
+            <a href="{{ url('/') }}" class="app-container">
+                <div>
+                    <img src="{{ asset('images/logo.png') }}" alt="Social App Logo" class="logo-image">
+                </div>
+                <div class="logo">SOCIAL-POST-APP</div>
+            </a>
+            
             <div class="box">
                 <input type="text" id="searchInput" placeholder="Search...">
                 <a href="#">
@@ -39,29 +45,26 @@
             </div>
 
             <nav class="navbar">
-                <a href="{{ url('/dashboard') }}">Account</a>
-                <a href="{{ url('/') }}">Post</a>
-                <a href="{{ url('/login') }}">Login</a>
-                <a href="{{ url('/register') }}">Create</a>
+                <a href="{{ url('/profile') }}">Account</a>
             </nav>
         </header>
         <input type="hidden" id="currentPage" value="1">
 
         <div class="posts">
             <div class="post-container">
-    
                 @foreach($posts as $post)
-                <a href="{{ route('post.show', ['postId' => $post->id]) }}" class="card-link">
-                    <div class="card">
+                <div class="card">
+                    <a href="/user/{{ $post->user->id }}" class="card-link">
                         <div class="card-content">
-                            <p class="user">u/Stry • 3 hr. ago</p>
-                            <h2 class="post-title">{{ $post->title }}</h2>
-                            <p class="post-content">{{ $post->content }}</p>
+                            <p class="user">u/{{ $post->user->name }} • {{ $post->created_at }}</p>
+                            <h2><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-title">{{ $post->title }}</a></h2>
+                            <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-content">{{ $post->content }}</a></p>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
                 @endforeach    
             </div>
+
             
             <div class="pagination">
                 <button class="page-button" onclick="prevPage()">

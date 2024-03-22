@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/comment', function () {
-    return view('comment-card');
+    return view('user-post-card');
 });
 
 Route::get('/post/{postId}', [PostController::class, 'show'])->name('post.show');

@@ -9,10 +9,15 @@
 </head>
 <body>
 <header class="main">
-    <a href="{{ url('/') }}" class="logo">SOCIAL-POST-APP</a>
+    <a href="{{ url('/') }}" class="app-container">
+        <div>
+            <img src="{{ asset('images/logo.png') }}" alt="Social App Logo" class="logo-image">
+        </div>
+        <div class="logo">SOCIAL-POST-APP</div>
+    </a>
 
     <nav class="navbar">
-        <a href="{{ url('/dashboard') }}">Account</a>
+        <a href="{{ url('/profile') }}">Account</a>
     </nav>
 </header>
 
@@ -30,7 +35,13 @@
         </nav>
     </div>
     <div class="user-activity">
+        @foreach($comments as $comment)
+            @include('comment-card', ['comment' => $comment])
+        @endforeach 
         
+        @foreach($posts as $post)
+            @include('user-post-card', ['post' => $post])
+        @endforeach 
     </div>
 </div>
 

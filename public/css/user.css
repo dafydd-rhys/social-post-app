@@ -89,6 +89,7 @@ body {
 
 .user-profile {
     width: 600px;
+    height: 820px;
     border-radius: 15px;
     padding: 15px;
     background-color: #0f1c1f;
@@ -96,7 +97,7 @@ body {
     border-width: 5px;
     overflow: hidden;
     margin: auto;
-    margin-top: 75px;
+    margin-top: 100px;
     display: flex;
     flex-direction: column; /* Change to column layout */
     align-items: start;
@@ -172,4 +173,27 @@ body {
     height: 575px;
     width: 100%;
     background: transparent;
+}
+
+.app-container {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    text-decoration: none;
+}
+
+.logo-container {
+    margin-right: 15px;
+}
+
+.logo-image {
+    width: 50px;
+    border-radius: 50%;
+}
+
+.logo {
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 10px;  
 }
