@@ -17,7 +17,8 @@
     </a>
 
     <nav class="navbar">
-        <a href="{{ url('/profile') }}">Account</a>
+        <a href="{{ Auth::check() ? url('/user/' . Auth::id()) : url('/profile') }}">Profile</a>
+        <a href="{{ url('/profile') }}">Account Management</a>
     </nav>
 </header>
 
@@ -29,9 +30,9 @@
         <p class="role-content">{{ $user->role }}</p>
 
         <nav class="profile-nav">
-            <a href="{{ url('/') }}"><text class="a">Overview</text></a>
-            <a href="{{ url('/') }}">Posts</a>
-            <a href="{{ url('/') }}">Comments</a>
+            <a href="{{ url('/user/' . $user->id) }}"><text class="a">Overview</text></a>
+            <a href="{{ url('/user/' . $user->id) }}/posts">Posts</a>
+            <a href="{{ url('/user/' . $user->id) }}/comments">Comments</a>
         </nav>
     </div>
     <div class="user-activity">

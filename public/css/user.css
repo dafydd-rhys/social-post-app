@@ -104,7 +104,6 @@ body {
 }
 
 .user-content {
-    height: 240px;
     width: 100%; /* Adjust width to take full space */
     display: flex;
     flex-direction: column;
@@ -150,6 +149,7 @@ body {
 
 .profile-nav {
     margin-top: 25px;
+    padding-bottom: 20px;
 }
 
 .profile-nav a {

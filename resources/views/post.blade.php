@@ -59,7 +59,8 @@ $(document).ready(function() {
             </div>
 
             <nav class="navbar">
-                <a href="{{ url('/profile') }}">Account</a> 
+                <a href="{{ Auth::check() ? url('/user/' . Auth::id()) : url('/profile') }}">Profile</a>
+                <a href="{{ url('/profile') }}">Account Management</a>
             </nav>
         </header>
 

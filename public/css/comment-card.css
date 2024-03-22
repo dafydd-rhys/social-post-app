@@ -15,41 +15,39 @@ body {
 }
 
 .comment-card {
+    margin-top: 10px;
     width: 570px;
-    padding: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
     background-color: #0f1c1f;
     border-color: black;
     border-width: 5px;
     overflow: hidden;
-    border-bottom: 1px solid grey;
-}
-
-.comment-content {
-    width: 570px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    text-decoration: none;
+    border: 1px solid grey;
+    border-radius: 15px;
 }
 
 .comment-user {
     width: 570px;
     font-size: 12px;
-    padding-bottom: 7.5px;
     color: rgb(175, 175, 175);
     text-decoration: none;
+    border: 1px ;
+}
+
+.comment-user:hover {
+    color: orangered;
 }
 
 .comment-content {
-    width: 570px;
+    width: 560px;
     color: rgb(175, 175, 175);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    padding-bottom: 5px;
-    padding-top: 2.5px;
+   margin-top: 7.5px;
 }
 
