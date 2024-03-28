@@ -9,36 +9,6 @@
         <script src="https://kit.fontawesome.com/84b3df78f4.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="{{ asset('js/post.js') }}"></script>
-        <script> 
-            $(document).ready(function() {
-                $('.comment-button').click(function() {
-                    var postId = "{{ $post->id }}";
-                    var userId = 51; 
-                    var commentContent = $('.comment-box').val();
-                    var token = "{{ csrf_token() }}";
-
-                    $.ajax({
-                        url: '/save',
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': token
-                        },
-                        data: {
-                            user_id: userId,
-                            website_posts_id: postId,
-                            content: commentContent
-                        },
-                        success: function(response) {
-                        console.log(response);
-                        location.reload();
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                        }
-                    });
-                });
-            });
-        </script>
     </head>
         <body>
             <header class="main">
@@ -111,8 +81,8 @@
                     <p class="user">Comment as {{ $user->title }}</p>
 
                     <textarea cols="30" rows="10" class="comment-box"></textarea>
-                    <button class="comment-button">
-                        <i class = "fa-solid fa-share-alt"></i>Comment
+                    <button class="comment-button" onclick="comment({{ $loggedIn ? $loggedIn->id : 'null' }}, {{ $post->id }}, {{ $user->email }})">
+                        <i class="fa-solid fa-share-alt"></i> Comment
                     </button>
                 </div>
 

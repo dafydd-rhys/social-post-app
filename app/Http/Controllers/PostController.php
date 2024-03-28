@@ -41,7 +41,8 @@ class PostController extends Controller
             'user' => $user,
             'isAdmin' => $isAdmin,
             'isModerator' => $isModerator,
-            'isCreator' => $isCreator
+            'isCreator' => $isCreator,
+            'loggedIn' => $loggedInUser
         ]);
     }
     
@@ -66,6 +67,21 @@ class PostController extends Controller
         $user = auth()->user();
 
         return view('edit-posts', ['user' => $user, 'post' => $post]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:100',
+            'content' => 'required|string|max:300',
+        ]);
+
+        $post = WebsitePosts::find($id);
+        $post->title = $validatedData['title'];
+        $post->content = $validatedData['content'];
+        $post->save();
+
+        return response()->json(['message' => 'Post updated successfully'], 200);
     }
 
 }

@@ -15,6 +15,8 @@ Route::get('/comment', function () {
 
 Route::post('/update-comment/{id}', [CommentsController::class, 'update']);
 
+Route::post('/update-post/{id}', [PostController::class, 'update']);
+
 Route::get('/comment/{commentId}/edit', [CommentsController::class, 'show']);
 
 Route::get('/post/{postId}', [PostController::class, 'show'])->name('post.show');

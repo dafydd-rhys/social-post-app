@@ -34,20 +34,22 @@
     <a>
         <div class="post">
             <div class="top-button-container">
-                <a href="{{ url('/') }}"  class="back">
+                <a href="{{ route('post.show', ['postId' => $post->id]) }}"  class="back">
                     <button class="back-button" onclick = "back()">
                         <i class="fa-solid fa-arrow-left" > </i>  
                         Back
                     </button>
                 </a>          
             </div>
-
-                <div class="card-content">
-                    <textarea cols="30" rows="10" class="post-title-box">{{ $post->title }}</textarea>
-                    <textarea cols="30" rows="10" class="post-comment-box">{{ $post->content }}</textarea>
-                </div>
+            <div class="card-content">
+                <textarea cols="30" rows="10" class="post-title-box">{{ $post->title }}</textarea>
+                <textarea cols="30" rows="10" class="post-comment-box">{{ $post->content }}</textarea>
+                <button class="post-update-button" onclick="updatePost({{ $post->id }})" >
+                    <i class="fa-solid fa-share-alt"></i>  
+                    Update Post
+                </button>
             </div>
+        </div>
     </a>
-
 </body>
 </html>
