@@ -14,7 +14,7 @@
             <header class="main">
             <a href="{{ url('/') }}" class="app-container">
                 <div>
-                    <img src="{{ asset('images/logo.png') }}" alt="Social App Logo" class="logo-image">
+                    <img src="{{ asset('images/interact.png') }}" alt="Social App Logo" class="logo-image">
                 </div>
                 <div class="logo">SOCIAL-POST-APP</div>
             </a>
@@ -81,7 +81,7 @@
                     <p class="user">Comment as {{ $user->title }}</p>
 
                     <textarea cols="30" rows="10" class="comment-box"></textarea>
-                    <button class="comment-button" onclick="comment({{ $loggedIn ? $loggedIn->id : 'null' }}, {{ $post->id }}, {{ $user->email }})">
+                    <button class="comment-button" onclick="comment({{ $loggedIn ? $loggedIn->id : 'null' }}, {{ $post->id }}, '{{ $user->email }}')">
                         <i class="fa-solid fa-share-alt"></i> Comment
                     </button>
                 </div>

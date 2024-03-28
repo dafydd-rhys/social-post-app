@@ -6,6 +6,31 @@ function report() {
     
 }
 
+function sendEmail(email) {
+    // Retrieve CSRF token from meta tag
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    $.ajax({
+        url: '/send-email',
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken, // Include CSRF token in headers
+        },
+        data: {
+            recipientEmail: email,
+            title: 'Someone Interacted with your post',
+            content: 'Someone just interacted with your post, login to see who!'
+        },
+        success: function(response) {
+            console.log('Email sent successfully:', response.message);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error sending email:', error);
+        }
+    });
+}
+
+
 async function comment(userId, postId, posterEmail) {
     try {
         if (!userId || userId === 'null') {
@@ -36,6 +61,7 @@ async function comment(userId, postId, posterEmail) {
 
         if (response.ok) {
             console.log('Comment posted successfully.');
+            sendEmail(posterEmail);
             location.reload();
         } else {
             console.error('Failed to post comment.');
