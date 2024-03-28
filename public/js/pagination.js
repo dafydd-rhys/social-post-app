@@ -3,7 +3,6 @@ function updatePageCount() {
     document.getElementById('pageCount').textContent = currentPage;
 }
 
-
 function prevPage() {
     var currentPage = document.getElementById('currentPage');
     

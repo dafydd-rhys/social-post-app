@@ -16,20 +16,21 @@ body {
 
 .comment-card {
     margin-top: 10px;
-    width: 570px;
+    width: 100%;
+    position: relative;
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 15px;
     background-color: #0f1c1f;
     border-color: black;
     border-width: 5px;
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid grey;
     border-radius: 15px;
 }
 
 .comment-user {
-    width: 570px;
+    order: -1;
     font-size: 12px;
     color: rgb(175, 175, 175);
     text-decoration: none;
@@ -41,13 +42,64 @@ body {
 }
 
 .comment-content {
-    width: 560px;
+    width: 540px;
     color: rgb(175, 175, 175);
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-   margin-top: 7.5px;
+    margin-top: 7.5px;
+    overflow: visible;
 }
 
+.top-info-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modify-button {
+    color: white;
+    background-color: #0b1416;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-c {
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
+.dropdown-content-c {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 60px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 999;
+    left: -45px; 
+}
+
+.dropdown-content-c {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 60px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+
+.dropdown-content-c a {
+    color: black;
+    padding: 6px 6px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content-c a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-c:hover .dropdown-content-c {
+    display: block;
+}

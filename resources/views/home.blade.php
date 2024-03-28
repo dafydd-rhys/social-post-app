@@ -3,13 +3,13 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/home.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/post-card.css') }}">
         <script src="https://kit.fontawesome.com/84b3df78f4.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="js/pagination.js"></script>
         <script>
-    
             $(document).ready(function() {
                 $('#searchInput').on('keyup', function() {
                     var searchText = $(this).val().toLowerCase();
@@ -24,6 +24,7 @@
                     });
                 });
             });
+            
         </script>
     </head>
 
@@ -47,6 +48,7 @@
             <nav class="navbar">
                 <a href="{{ Auth::check() ? url('/user/' . Auth::id()) : url('/profile') }}">Profile</a>
                 <a href="{{ url('/profile') }}">Account Management</a>
+                <a href="{{ url('/register') }}">Create</a>
             </nav>
         </header>
         <input type="hidden" id="currentPage" value="1">
@@ -66,7 +68,6 @@
                 @endforeach    
             </div>
 
-            
             <div class="pagination">
                 <button class="page-button" onclick="prevPage()">
                     <i class="fa-solid fa-arrow-left"></i>  

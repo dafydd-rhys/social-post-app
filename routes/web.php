@@ -13,7 +13,17 @@ Route::get('/comment', function () {
     return view('user-post-card');
 });
 
+Route::post('/update-comment/{id}', [CommentsController::class, 'update']);
+
+Route::get('/comment/{commentId}/edit', [CommentsController::class, 'show']);
+
 Route::get('/post/{postId}', [PostController::class, 'show'])->name('post.show');
+
+Route::get('/post/{postId}/edit', [PostController::class, 'edit']);
+
+Route::delete('/post/{id}', [PostController::class, 'destroy']);
+
+Route::delete('/comment/{id}', [CommentsController::class, 'destroy']);
 
 Route::post('/save', [CommentsController::class, 'store']);
 

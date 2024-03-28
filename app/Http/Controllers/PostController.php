@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\WebsitePosts;
 use App\Models\Comments;
-use App\Models\User; // Import the User model if not already imported
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -24,18 +24,27 @@ class PostController extends Controller
             abort(404);
         }
     
-        // Fetch the user associated with each comment
         foreach ($comments as $comment) {
             $comment->user = User::find($comment->user_id);
         }
-
-        // Fetch the user who created the post
+    
         $user = User::find($post->user_id);
     
-        return view('post', ['post' => $post, 'comments' => $comments, 'user' => $user]);
+        $loggedInUser = auth()->user();
+        $isAdmin = $loggedInUser && $loggedInUser->role === 'admin';
+        $isModerator = $loggedInUser && $loggedInUser->role === 'moderator';
+        $isCreator = $loggedInUser && ($loggedInUser->id === $post->user_id);
+    
+        return view('post', [
+            'post' => $post,
+            'comments' => $comments,
+            'user' => $user,
+            'isAdmin' => $isAdmin,
+            'isModerator' => $isModerator,
+            'isCreator' => $isCreator
+        ]);
     }
     
-
     public function getPage(Request $request)
     {
         $page = $request->input('page', 1);
@@ -44,5 +53,19 @@ class PostController extends Controller
 
         return view('post-card', ['posts' => $posts]);
     }   
+
+    public function destroy($id)
+    {
+        $post = WebsitePosts::find($id);
+        $post -> delete();
+    }
+
+    public function edit($postId)
+    {
+        $post = WebsitePosts::find($postId);
+        $user = auth()->user();
+
+        return view('edit-posts', ['user' => $user, 'post' => $post]);
+    }
 
 }
