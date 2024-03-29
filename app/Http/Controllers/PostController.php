@@ -72,8 +72,8 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'title' => 'required|string|max:100',
-            'content' => 'required|string|max:300',
+            'title' => 'required|string|max:300',
+            'content' => 'required|string|max:1000',
         ]);
 
         $post = WebsitePosts::find($id);
@@ -82,6 +82,30 @@ class PostController extends Controller
         $post->save();
 
         return response()->json(['message' => 'Post updated successfully'], 200);
+    }
+
+    public function create()
+    {
+        $user = auth()->user();
+
+        return view('create-post', ['user' => $user]);
+    }
+
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:300',
+            'content' => 'required|string|max:1000',
+        ]);
+
+        $post = new WebsitePosts();
+        $post->title = $validatedData['title'];
+        $post->content = $validatedData['content'];
+        $post->user_id = auth()->user()->id;
+        $post->save();
+
+        return response()->json(['message' => 'Post created successfully'], 200);
     }
 
 }

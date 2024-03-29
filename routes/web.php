@@ -26,6 +26,10 @@ Route::get('/post/{postId}', [PostController::class, 'show'])->name('post.show')
 
 Route::get('/post/{postId}/edit', [PostController::class, 'edit']);
 
+Route::get('/create-post', [PostController::class, 'create']);
+
+Route::post('/create-post', [PostController::class, 'store'])->name('post.store');
+
 Route::delete('/post/{id}', [PostController::class, 'destroy']);
 
 Route::delete('/comment/{id}', [CommentsController::class, 'destroy']);

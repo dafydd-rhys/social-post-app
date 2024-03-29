@@ -17,9 +17,19 @@
     </a>
 
     <nav class="navbar">
-        <a href="{{ Auth::check() ? url('/user/' . Auth::id()) : url('/profile') }}">Profile</a>
-        <a href="{{ url('/profile') }}">Account Management</a>
-    </nav>
+                @if(Auth::check())          
+                    @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
+                        <a href="{{ url('/create-post') }}">Create Post</a>
+                    @endif
+                    <a href="{{ url('/user/' . Auth::id()) }}">My Profile</a>
+                    <a href="{{ url('/profile') }}">Account Management</a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">@csrf</form>
+                    <a href="#" onclick="event.preventDefault(); alert('You have successfully logged out.'); document.getElementById('logout-form').submit();">Logout</a>
+                @else
+                    <a href="{{ url('/login') }}" >Login</a>
+                    <a href="{{ url('/register') }}">Create Account</a>
+                @endif
+            </nav>
 </header>
 
 <div class="user-profile">
@@ -36,9 +46,23 @@
         </nav>
     </div>
     <div class="user-activity">
-        @foreach($comments as $comment)
-            @include('comment-card', ['comment' => $comment])
-        @endforeach 
+    @php
+                            $loggedInUser = auth()->user();
+                            $isAdmin = $loggedInUser && $loggedInUser->role === 'admin';
+                            $isModerator = $loggedInUser && $loggedInUser->role === 'moderator';
+                        @endphp
+
+                        @foreach($comments as $comment)
+                        @php
+                            $isCreator = $loggedInUser && $loggedInUser->id === $comment->user_id;
+                        @endphp
+                        @include('comment-card', [
+                            'comment' => $comment,
+                            'isAdmin' => $isAdmin,
+                            'isModerator' => $isModerator,
+                            'isCreator' => $isCreator
+                        ])
+                        @endforeach  
         
         @foreach($posts as $post)
             @include('user-post-card', ['post' => $post])

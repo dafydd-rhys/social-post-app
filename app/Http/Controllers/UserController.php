@@ -18,8 +18,21 @@ class UserController extends Controller
         if (!$user) {
             abort(404);
         }
+
+        $loggedInUser = auth()->user();
+        $isAdmin = false;
+        $isModerator = false;
+        $isCreator = false; // Initialize as fals
     
-        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments]);
+        return view('user', [
+            'posts' => $posts,
+            'comments' => $comments,
+            'user' => $user,
+            'isAdmin' => $isAdmin,
+            'isModerator' => $isModerator,
+            'isCreator' => $isCreator,
+            'loggedIn' => $loggedInUser
+        ]);
     }
 
     public function posts($userId)

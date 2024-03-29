@@ -38,7 +38,7 @@ class CommentsController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'content' => 'required|string',
+            'content' => 'required|string|max:500',
         ]);
 
         $comment = Comments::find($id);

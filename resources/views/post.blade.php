@@ -14,7 +14,7 @@
             <header class="main">
             <a href="{{ url('/') }}" class="app-container">
                 <div>
-                    <img src="{{ asset('images/interact.png') }}" alt="Social App Logo" class="logo-image">
+                    <img src="{{ asset('images/logo.png') }}" alt="Social App Logo" class="logo-image">
                 </div>
                 <div class="logo">SOCIAL-POST-APP</div>
             </a>
@@ -27,8 +27,18 @@
             </div>
 
             <nav class="navbar">
-                <a href="{{ Auth::check() ? url('/user/' . Auth::id()) : url('/profile') }}">Profile</a>
-                <a href="{{ url('/profile') }}">Account Management</a>
+                @if(Auth::check())          
+                    @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
+                        <a href="{{ url('/create-post') }}">Create Post</a>
+                    @endif
+                    <a href="{{ url('/user/' . Auth::id()) }}">My Profile</a>
+                    <a href="{{ url('/profile') }}">Account Management</a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">@csrf</form>
+                    <a href="#" onclick="event.preventDefault(); alert('You have successfully logged out.'); document.getElementById('logout-form').submit();">Logout</a>
+                @else
+                    <a href="{{ url('/login') }}" >Login</a>
+                    <a href="{{ url('/register') }}">Create Account</a>
+                @endif
             </nav>
         </header>
 
@@ -82,16 +92,29 @@
 
                     <textarea cols="30" rows="10" class="comment-box"></textarea>
                     <button class="comment-button" onclick="comment({{ $loggedIn ? $loggedIn->id : 'null' }}, {{ $post->id }}, '{{ $user->email }}')">
-                        <i class="fa-solid fa-share-alt"></i> Comment
+                        <i class="fa-solid fa-upload"></i> Comment
                     </button>
                 </div>
 
                 <div class="comment-section">
                     <div class="comment-container">
                         <input type="hidden" id="currentCommentPage" value="1">
-                        
+                        @php
+                            $loggedInUser = auth()->user();
+                            $isAdmin = $loggedInUser && $loggedInUser->role === 'admin';
+                            $isModerator = $loggedInUser && $loggedInUser->role === 'moderator';
+                        @endphp
+
                         @foreach($comments as $comment)
-                            @include('comment-card', ['comment' => $comment])
+                        @php
+                            $isCreator = $loggedInUser && $loggedInUser->id === $comment->user_id;
+                        @endphp
+                        @include('comment-card', [
+                            'comment' => $comment,
+                            'isAdmin' => $isAdmin,
+                            'isModerator' => $isModerator,
+                            'isCreator' => $isCreator
+                        ])
                         @endforeach       
                     </div>
                 </div>

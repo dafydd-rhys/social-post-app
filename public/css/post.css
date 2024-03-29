@@ -30,7 +30,7 @@ body {
     width: 600px;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     padding: 10px 5px;
 }
 
@@ -98,6 +98,7 @@ body {
 .comment {
     margin-top: 10px;
     margin-bottom: 45px;
+    position: relative;
 }
 
 .comment-box {
@@ -211,19 +212,32 @@ body {
     background-color: #0b1416;
     color: white;
     padding: 10px;
-    margin-top: 20px;
+    height: 200px;
     border: none;
 }
 
 .post-update-button {
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: 5px;
     margin-right: 5px; 
     margin-bottom: 10px; 
     padding: 5px 10px;
     background-color: #f0f0f0;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    height: 45px;
+    width: 100px;
     cursor: pointer;
-    float: right;
+    align-self: flex-end;
+    margin-right: 32px;
+}
+
+.upload-button {
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    width: 125px;
+    cursor: pointer;
+    margin-bottom: 10px;
 }

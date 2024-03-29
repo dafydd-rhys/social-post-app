@@ -34,9 +34,8 @@ function sendEmail(email) {
 async function comment(userId, postId, posterEmail) {
     try {
         if (!userId || userId === 'null') {
-            alert('Please log in to comment.');
+            alert('Please log in to comment.'); 
             window.location.href = '/login';
-
             return;
         }
 
@@ -71,7 +70,6 @@ async function comment(userId, postId, posterEmail) {
     }
 }
 
-
 async function deletePost(postId) {
     try {
         fetch(`/post/${postId}`, {
@@ -98,6 +96,7 @@ function deleteComment(commentId) {
             }
         });
 
+        window.location.reload();
         console.log('Comment deleted successfully.');
     } catch (error) {
         console.error('Error deleting Comment:', error);

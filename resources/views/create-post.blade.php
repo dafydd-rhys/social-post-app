@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/edit.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/post.css') }}">
     <script src="https://kit.fontawesome.com/84b3df78f4.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/update.js') }}"></script>
 </head>
 
-<body id="edit-comments-blade">
+<body id="edit-posts-blade">
 <header class="main">
     <a href="{{ url('/') }}" class="app-container">
         <div>
@@ -42,25 +42,34 @@
             </nav>
 </header>
 
-<a>
-    <div class="post">
-    <a href="{{ route('post.show', ['postId' => $post->id]) }}"  class="back">
+    <a>
+        <div class="post">
+            <div class="top-button-container">
+                <a href="{{ url('/') }}"  class="back">
                     <button class="back-button" onclick = "back()">
                         <i class="fa-solid fa-arrow-left" > </i>  
                         Back
                     </button>
-                </a>  
-        <div class="comment">
-            <p class="user">Comment as {{ $user->name }}</p>
+                </a>          
+            </div>
+            <div class="card-content">
+                <p class="title">Post Title</p>
+                <textarea cols="30" rows="10" class="post-title-box"></textarea>
+                <p class="title-info"> / 300</p>
 
-            <textarea cols="30" rows="10" class="comment-box">{{ $comment->content }}</textarea>
-            <p class="info">/ 500</p>
-            <button class="comment-button" onclick="updateComment({{ $comment->id }}, {{ $post->id }})">
-                Update Comment
-            </button>
+                <button class="upload-button" >
+                    Upload Image
+                </button>
+
+                <p class="title">Post Description</p>
+                <textarea cols="30" rows="10" class="post-comment-box"></textarea>
+                <p class="description-info"> / 1000</p>
+
+                <button class="post-update-button" onclick="createPost()">
+                    Create Post
+                </button>
+            </div>
         </div>
-    </div>
-</a>
-
+    </a>
 </body>
 </html>

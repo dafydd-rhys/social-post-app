@@ -2,8 +2,10 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/comment-card.css') }}">
+        <script src="{{ asset('js/post.js') }}"></script>
     </head>
     
     <body>
@@ -23,10 +25,10 @@
                                 <a href="#" class="report-option" onclick = "report()">Report</a>
 
                                 @if ($isAdmin || $isModerator)   
-                                    <a href="/post/{{ $post->id }}" class="delete-option" onclick="deleteComment({{ $comment->id }})">Delete</a>
+                                    <a href="javascript:void(0)" class="delete-option" onclick="deleteComment({{ $comment->id }})">Delete</a>
                                 @endif
                                 @if ($isCreator)
-                                    <a href="/comment/{{ $comment->id }}/edit" class="edit-option" onclick="editComment({{ $comment->id }})">Edit</a>
+                                    <a href="/comment/{{ $comment->id }}/edit" class="edit-option">Edit</a>
                                 @endif 
                             </div>
                         </div>
