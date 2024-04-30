@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\WebsitePosts;
+use App\Models\Comments;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     public function comments() {
-        return $this->hasMany('App\Models\Comments');
+        return $this->hasMany(Comments::class);
     }
 
     public function websitePosts() {
-        return $this->hasMany('App\Models\WebsitePosts');
+        return $this->hasMany(WebsitePosts::class);
     }
 
     protected $fillable = [
