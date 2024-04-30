@@ -8,15 +8,16 @@
     </head>
     <body>
     @foreach($posts as $post)
-        <a href="{{ route('post.show', ['postId' => $post->id]) }}" class="card-link">
-            <div class="card">
+        <div class="card">
+            <a href="/user/{{ $post->user->id }}" class="card-link">
                 <div class="card-content">
                     <p class="user">u/{{ $post->user->name }} • {{ $post->created_at }}</p>
-                    <h2 class="post-title">{{ $post->title }}</h2>
-                    <p class="post-content">{{ $post->content }}</p>
+                    <h2><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-title">{{ $post->title }}</a></h2>
+                    <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-content">{{ $post->content }}</a></p>
+                    <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="tag-photo">No Tag • No Image</p></p>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
         @endforeach
     </body>
 </html>

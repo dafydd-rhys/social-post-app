@@ -72,6 +72,7 @@
                             <p class="user">u/{{ $post->user->name }} • {{ $post->created_at }}</p>
                             <h2><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-title">{{ $post->title }}</a></h2>
                             <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-content">{{ $post->content }}</a></p>
+                            <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="tag-photo">No Tag • No Image</p></p>
                         </div>
                     </a>
                 </div>

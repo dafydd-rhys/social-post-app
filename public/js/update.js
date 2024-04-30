@@ -78,6 +78,7 @@ function updateComment(id, post) {
 function createPost() {
     var title = document.querySelector('.post-title-box').value;
     var content = document.querySelector('.post-comment-box').value;
+    var tag = document.querySelector('#tag-select').value;
 
     if (title.trim().length === 0 || title.trim().length > 300) {
         alert('Title must be between 1 and 300 characters.');
@@ -89,13 +90,31 @@ function createPost() {
         return;
     }
 
+    var imageFile = document.getElementById('imageUpload').files[0];
+    var imageData = null;
+
+    if (imageFile) {
+        imageData = {
+            name: imageFile.name,
+            type: imageFile.type,
+            data: imageFile
+        };
+    }
+
+    var postData = {
+        title: title,
+        content: content,
+        tag: tag,
+        image: imageData
+    };
+
     fetch('/create-post', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body: JSON.stringify({ title: title, content: content })
+        body: JSON.stringify(postData)
     })
     .then(response => {
         if (response.ok) {
@@ -110,4 +129,5 @@ function createPost() {
         alert('An error occurred. Please try again later.');
     });
 }
+
 

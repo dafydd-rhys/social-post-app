@@ -24,6 +24,7 @@ body {
 }
 
 .card-content {
+    position: relative;
     width: 575px;
     height: 200px;
     display: flex;
@@ -55,6 +56,7 @@ body {
     color: rgb(175, 175, 175);
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 17.15px;
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 7;
@@ -74,4 +76,14 @@ body {
 
 .card:hover {
     background-color: rgb(255, 100, 43);
+}
+
+.tag-photo {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    font-size: 11px;
+    font-style: italic;
+    color: white;
+    text-decoration: none;
 }
