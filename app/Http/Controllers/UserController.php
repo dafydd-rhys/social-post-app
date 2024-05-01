@@ -11,6 +11,7 @@ class UserController extends Controller
 {
     public function show($userId)
     {
+        $loggedInUser = auth()->user();
         $user = User::find($userId);
         if (!$user) {
             abort(404);
@@ -22,11 +23,12 @@ class UserController extends Controller
 
         $posts = [];
 
-        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments]);
+        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments, 'loggedIn' => $loggedInUser]);
     }
 
     public function posts($userId)
     {
+        $loggedInUser = auth()->user();
         $user = User::find($userId);
         $posts = WebsitePosts::where('user_id', $userId)->get();     
         $comments = [];
@@ -35,11 +37,12 @@ class UserController extends Controller
             abort(404);
         }
     
-        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments]);
+        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments, 'loggedIn' => $loggedInUser]);
     }
 
     public function comments($userId)
     {
+        $loggedInUser = auth()->user();
         $user = User::find($userId);
         if (!$user) {
             abort(404);
@@ -51,11 +54,12 @@ class UserController extends Controller
 
         $posts = [];
 
-        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments]);
+        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments, 'loggedIn' => $loggedInUser]);
     }
 
     public function profileComments($userId)
     {
+        $loggedInUser = auth()->user();
         $user = User::find($userId);
         if (!$user) {
             abort(404);
@@ -67,7 +71,7 @@ class UserController extends Controller
 
         $posts = [];
 
-        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments]);
+        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments, 'loggedIn' => $loggedInUser]);
     }
 
 

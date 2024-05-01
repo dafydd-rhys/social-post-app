@@ -57,7 +57,7 @@ function updatePost(id) {
     xhr.send(formData);
 }
 
-function updateComment(id, post) {
+function updateComment(id, previous) {
     var newContent = document.querySelector('.comment-box').value;
 
     // Validate new content length
@@ -75,7 +75,7 @@ function updateComment(id, post) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 alert('Comment updated successfully!');
-                window.location.href = '/post/' + post;
+                window.location.href = previous;
             } else {
                 alert('Failed to update comment. Please try again later.');
             }

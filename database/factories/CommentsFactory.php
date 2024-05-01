@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Faker\Factory as FakerFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\WebsitePosts;
@@ -14,11 +15,12 @@ class CommentsFactory extends Factory
 
     public function definition()
     {
+        $this->faker = FakerFactory::create('en_US');
         $commentableType = $this->faker->randomElement([WebsitePosts::class, User::class]);
 
         return [
             'user_id' => User::factory()->create()->id,
-            'content' => $this->faker->paragraph(),
+            'content' => $this->faker->realText(),
             'commentable_id' => $commentableType::factory()->create()->id,
             'commentable_type' => $commentableType,
         ];

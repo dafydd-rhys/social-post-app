@@ -44,7 +44,7 @@
 
 <a>
     <div class="post">
-    <a href="{{ route('post.show', ['postId' => $post->id]) }}"  class="back">
+    <a href="{{ $previous }}"  class="back">
                     <button class="back-button" onclick = "back()">
                         <i class="fa-solid fa-arrow-left" > </i>  
                         Back
@@ -55,9 +55,9 @@
 
             <textarea cols="30" rows="10" class="comment-box">{{ $comment->content }}</textarea>
             <p class="info">/ 500</p>
-            <button class="comment-button" onclick="updateComment({{ $comment->id }}, {{ $post->id }})">
-                Update Comment
-            </button>
+            <button class="comment-button" onclick="updateComment({{ $comment->id }}, '{{ $previous }}')">
+    Update Comment
+</button>
         </div>
     </div>
 </a>

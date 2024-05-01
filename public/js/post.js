@@ -31,7 +31,7 @@ function sendEmail(email) {
 }
 
 
-async function comment(userId, postId, posterEmail) {
+async function comment(userId, id, post, posterEmail) {
     try {
         if (!userId || userId === 'null') {
             alert('Please log in to comment.'); 
@@ -52,8 +52,9 @@ async function comment(userId, postId, posterEmail) {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({
+                commentable_id: id,
+                commentable_type: post,
                 user_id: userId,
-                website_posts_id: postId,
                 content: commentContent
             })
         });

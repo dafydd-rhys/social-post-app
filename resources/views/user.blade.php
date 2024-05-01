@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/user.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://kit.fontawesome.com/84b3df78f4.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/post.js') }}"></script>
 </head>
 <body>
 <header class="main">
@@ -17,59 +19,73 @@
     </a>
 
     <nav class="navbar">
-                @if(Auth::check())          
-                    @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
-                        <a href="{{ url('/create-post') }}">Create Post</a>
-                    @endif
-                    <a href="{{ url('/user/' . Auth::id()) }}">My Profile</a>
-                    <a href="{{ url('/profile') }}">Account Management</a>
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">@csrf</form>
-                    <a href="#" onclick="event.preventDefault(); alert('You have successfully logged out.'); document.getElementById('logout-form').submit();">Logout</a>
-                @else
-                    <a href="{{ url('/login') }}" >Login</a>
-                    <a href="{{ url('/register') }}">Create Account</a>
-                @endif
-            </nav>
+        @if(Auth::check())
+            @if(Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
+                <a href="{{ url('/create-post') }}">Create Post</a>
+            @endif
+            <a href="{{ url('/user/' . Auth::id()) }}">My Profile</a>
+            <a href="{{ url('/profile') }}">Account Management</a>
+            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">@csrf</form>
+            <a href="#" onclick="event.preventDefault(); alert('You have successfully logged out.'); document.getElementById('logout-form').submit();">Logout</a>
+        @else
+            <a href="{{ url('/login') }}">Login</a>
+            <a href="{{ url('/register') }}">Create Account</a>
+        @endif
+    </nav>
 </header>
 
 <div class="user-profile">
     <div class="user-content">
-
         <img src="{{ asset('images/profile.png') }}" alt="Profile Picture" class="profile-pic">
         <p class="username-content">{{ $user->name }}</p>
         <p class="role-content">{{ $user->role }}</p>
 
         <nav class="profile-nav">
-            <a class = "nav-overview" href="{{ url('/user/' . $user->id) }}">Overview</a>
-            <a class = "nav-posts" href="{{ url('/user/' . $user->id) }}/posts">Posts</a>
-            <a class = "nav-comments" href="{{ url('/user/' . $user->id) }}/comments">Post Comments</a>
-            <a class = "nav-profile-comments" href="{{ url('/user/' . $user->id) }}/profile-comments">Profile Comments</a>
+            <a class="nav-overview" href="{{ url('/user/' . $user->id) }}">Profile</a>
+            <a class="nav-posts" href="{{ url('/user/' . $user->id) }}/posts">Posts</a>
+            <a class="nav-comments" href="{{ url('/user/' . $user->id) }}/comments">Post Comments</a>
+            <a class="nav-profile-comments" href="{{ url('/user/' . $user->id) }}/profile-comments">Profile Comments</a>
         </nav>
     </div>
-    <div class="user-activity">
-    @php
-                            $loggedInUser = auth()->user();
-                            $isAdmin = $loggedInUser && $loggedInUser->role === 'admin';
-                            $isModerator = $loggedInUser && $loggedInUser->role === 'moderator';
-                        @endphp
 
-                        @foreach($comments as $comment)
-                        @php
-                            $isCreator = $loggedInUser && $loggedInUser->id === $comment->user_id;
-                        @endphp
-                        @include('comment-card', [
-                            'comment' => $comment,
-                            'isAdmin' => $isAdmin,
-                            'isModerator' => $isModerator,
-                            'isCreator' => $isCreator
-                        ])
-                        @endforeach  
+    <div class="user-activity">
+        @if(request()->is('user/' . $user->id))
+            <div class="comment">
+                <p class="user">Make a Profile Comment</p>
+                <textarea cols="30" rows="10" class="comment-box"></textarea>
+                <button class="comment-button" onclick="comment({{ $loggedIn ? $loggedIn->id : 'null' }}, {{ $user->id }}, false, '{{ $user->email }}')">
+                    <i class="fa-solid fa-upload"></i> Comment
+                </button>
+            </div>
+        @endif
         
+        <div class="scrollable-container">
+    
+        @php
+            $loggedInUser = auth()->user();
+            $isAdmin = $loggedInUser && $loggedInUser->role === 'admin';
+            $isModerator = $loggedInUser && $loggedInUser->role === 'moderator';
+        @endphp
+
+        @foreach($comments as $comment)
+            @php
+                $isCreator = $loggedInUser && $loggedInUser->id === $comment->user_id;
+            @endphp
+            @include('comment-card', [
+                'comment' => $comment,
+                'isAdmin' => $isAdmin,
+                'isModerator' => $isModerator,
+                'isCreator' => $isCreator
+            ])
+        @endforeach
+
         @foreach($posts as $post)
             @include('user-post-card', ['post' => $post])
-        @endforeach 
+        @endforeach
+        </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         // Get the current URL
@@ -83,8 +99,10 @@
             $('.nav-profile-comments').css('background-color', 'orangered');
         } else {
             $('.nav-overview').css('background-color', 'orangered');
+            $('.scrollable-container').css('height', '370px');
         }
     });
 </script>
+
 </body>
 </html>

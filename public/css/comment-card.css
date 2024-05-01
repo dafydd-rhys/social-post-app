@@ -16,7 +16,7 @@ body {
 
 .comment-card {
     margin-top: 10px;
-    width: 100%;
+    width: 98%;
     position: relative;
     padding-left: 15px;
     padding-right: 15px;
@@ -42,7 +42,7 @@ body {
 }
 
 .comment-content {
-    width: 540px;
+    width: 510px;
     color: rgb(175, 175, 175);
     text-overflow: ellipsis;
     white-space: normal;

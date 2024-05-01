@@ -17,7 +17,7 @@ class TagWebsitePostSeeder extends Seeder
         // Attach random tags to each website post
         $posts->each(function ($post) use ($tags) {
             $post->tags()->attach(
-                $tags->random(rand(1, 3))->pluck('id')->toArray()
+                $tags->random(1)->pluck('id')->toArray()
             );
         });
     }

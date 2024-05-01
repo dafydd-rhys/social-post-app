@@ -103,7 +103,7 @@
                     <p class="user">Comment as {{ $user->title }}</p>
 
                     <textarea cols="30" rows="10" class="comment-box"></textarea>
-                    <button class="comment-button" onclick="comment({{ $loggedIn ? $loggedIn->id : 'null' }}, {{ $post->id }}, '{{ $user->email }}')">
+                    <button class="comment-button" onclick="comment({{ $loggedIn ? $loggedIn->id : 'null' }}, {{ $post->id }}, true, '{{ $user->email }}')">
                         <i class="fa-solid fa-upload"></i> Comment
                     </button>
                 </div>

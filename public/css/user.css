@@ -88,7 +88,7 @@ body {
 }
 
 .user-profile {
-    width: 600px;
+    width: 610px;
     height: 820px;
     border-radius: 15px;
     padding: 15px;
@@ -154,7 +154,7 @@ body {
 
 .profile-nav a {
     position: relative;
-    font-size: 16px;
+    font-size: 13px;
     color: white;
     text-decoration: none;
     font-weight: 500;
@@ -162,6 +162,20 @@ body {
     background: rgb(89, 135, 173);
     border-radius: 10px;
     padding: 10px;
+}
+
+.leave-comment {
+    position: relative;
+    font-size: 13px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 10px;
+    background: grey;
+    border-radius: 10px;
+    padding: 7px;
+    margin-top: 10px;
+    border: none;
 }
 
 .profile-nav a:hover {
@@ -201,4 +215,61 @@ body {
 .active-nav-link {
     background-color: orange;
     color: white; /* Adjust text color for visibility */
+}
+
+.comment {
+    margin-top: 10px;
+    margin-bottom: 45px;
+    position: relative;
+}
+
+.comment-box {
+    width: -webkit-fill-available;
+    height: 100px;
+    background-color: #0b1416;
+    color: white;
+    padding: 10px;
+    border: none;
+}
+
+.comment-button {
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px; 
+    margin-bottom: 10px; 
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+.user {
+    font-size: 12px;
+    padding-bottom: 7.5px;
+    color: rgb(175, 175, 175);
+    text-decoration: none;
+}
+
+.scrollable-container {
+    height: 550px; /* Set the desired height for the scrollable container */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.scrollable-container::-webkit-scrollbar {
+    width: 5px; 
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+    background: #0f1c1f; 
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+    background-color: rgba(169, 117, 228, 0.849); 
+    border-radius: 5px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(169, 117, 228, 0.849);
 }

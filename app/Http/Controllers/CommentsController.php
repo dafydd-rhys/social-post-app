@@ -5,28 +5,59 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Comments; 
 use App\Models\WebsitePosts; 
+use App\Models\User; 
+use Illuminate\Support\Facades\Log;
 
 class CommentsController extends Controller
 {
 
-    public function show($commentId)
-    {
+    public function show($commentId) {
         $comment = Comments::find($commentId);
-        $post = WebsitePosts::find($comment->website_posts_id);
+        if (!$comment) {
+            abort(404);
+        }
         $user = auth()->user();
 
-        return view('edit-comments', ['comment' => $comment, 'user' => $user, 'post' => $post]);
+        if ($comment->commentable_type === WebsitePosts::class) {
+            $post = WebsitePosts::find($comment->commentable_id);
+            $previous = url('/post/' . $post->id);
+        } elseif ($comment->commentable_type ===  User::class) {
+            $user = User::find($comment->commentable_id);
+            $previous = url('/user/' . $user->id);
+        } else {
+            abort(404);
+        }
+
+        return view('edit-comments', [
+            'comment' => $comment,
+            'user' => $user,
+            'previous' => $previous
+        ]);
     }
 
     public function store(Request $request)
     {
-        Comments::create([
+        $type = $request->commentable_type === true ? WebsitePosts::class : User::class;
+        $commentable = $type::find($request->commentable_id);
+
+        if (!$commentable) {
+            return response()->json(['message' => 'Commentable entity not found'], 404);
+        }
+
+        // Create a new comment instance and fill it with user input
+        $comment = new Comments([
             'user_id' => $request->user_id,
-            'website_posts_id' => $request->website_posts_id,
-            'content' => $request->content
+            'content' => $request->content,
         ]);
 
-        return response()->json(['message' => 'Comment saved successfully']);
+        try {
+            // Save the comment using the commentable relationship
+            $commentable->comments()->save($comment);
+
+            return response()->json(['message' => 'Comment saved successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to create comment. ' . $e->getMessage()], 500);
+        }
     }
 
     public function destroy($id)
