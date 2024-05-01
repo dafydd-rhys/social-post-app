@@ -12,8 +12,9 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    public function comments() {
-        return $this->hasMany(Comments::class);
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function websitePosts() {

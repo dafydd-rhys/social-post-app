@@ -46,6 +46,8 @@ Route::get('/user/{user_id}/posts', [UserController::class, 'posts'])->name('use
 
 Route::get('/user/{user_id}/comments', [UserController::class, 'comments'])->name('user');
 
+Route::get('/user/{user_id}/profile-comments', [UserController::class, 'profileComments'])->name('user');
+
 Route::get('/login', function ($user_id) {
     return view('login');
 });

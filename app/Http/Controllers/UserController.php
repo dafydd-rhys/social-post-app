@@ -12,27 +12,17 @@ class UserController extends Controller
     public function show($userId)
     {
         $user = User::find($userId);
-        $comments = Comments::where('user_id', $userId)->get();
-        $posts = WebsitePosts::where('user_id', $userId)->get();    
-
         if (!$user) {
             abort(404);
         }
 
-        $loggedInUser = auth()->user();
-        $isAdmin = false;
-        $isModerator = false;
-        $isCreator = false; // Initialize as fals
-    
-        return view('user', [
-            'posts' => $posts,
-            'comments' => $comments,
-            'user' => $user,
-            'isAdmin' => $isAdmin,
-            'isModerator' => $isModerator,
-            'isCreator' => $isCreator,
-            'loggedIn' => $loggedInUser
-        ]);
+        $comments = Comments::where('commentable_id', $userId)
+                            ->where('commentable_type', User::class)
+                            ->get();
+
+        $posts = [];
+
+        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments]);
     }
 
     public function posts($userId)
@@ -51,14 +41,34 @@ class UserController extends Controller
     public function comments($userId)
     {
         $user = User::find($userId);
-        $comments = Comments::where('user_id', $userId)->get();
-        $posts = [];
-
         if (!$user) {
             abort(404);
         }
-    
+
+        $comments = Comments::where('user_id', $userId)
+                            ->where('commentable_type', WebsitePosts::class)
+                            ->get();
+
+        $posts = [];
+
         return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments]);
     }
+
+    public function profileComments($userId)
+    {
+        $user = User::find($userId);
+        if (!$user) {
+            abort(404);
+        }
+
+        $comments = Comments::where('user_id', $userId)
+                            ->where('commentable_type', User::class)
+                            ->get();
+
+        $posts = [];
+
+        return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments]);
+    }
+
 
 }

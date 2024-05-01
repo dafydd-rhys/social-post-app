@@ -12,14 +12,15 @@ class CommentsFactory extends Factory
     
     protected $model = Comments::class;
 
-    public function definition(): array
+    public function definition()
     {
+        $commentableType = $this->faker->randomElement([WebsitePosts::class, User::class]);
+
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
-            'website_posts_id' => WebsitePosts::inRandomOrder()->first()->id,
+            'user_id' => User::factory()->create()->id,
             'content' => $this->faker->paragraph(),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'commentable_id' => $commentableType::factory()->create()->id,
+            'commentable_type' => $commentableType,
         ];
     }
 }

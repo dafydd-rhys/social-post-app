@@ -72,7 +72,12 @@
                             <p class="user">u/{{ $post->user->name }} • {{ $post->created_at }}</p>
                             <h2><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-title">{{ $post->title }}</a></h2>
                             <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-content">{{ $post->content }}</a></p>
-                            <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="tag-photo">No Tag • No Image</p></p>
+                            @php
+                                $imageStatus = ($post->image_path === '') ? 'No Image' : 'Image Attached';
+                                $tagName = ($post->tags->isNotEmpty()) ? $post->tags->first()->name : 'None';
+                                $tagPhotoClass = ($imageStatus === 'Image Attached') ? 'tag-photo image-attached' : 'tag-photo';
+                            @endphp
+                            <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="{{ $tagPhotoClass }}">{{ $tagName }} • {{ $imageStatus }}</a></p>
                         </div>
                     </a>
                 </div>

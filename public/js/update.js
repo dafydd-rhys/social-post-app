@@ -23,16 +23,24 @@ document.addEventListener('DOMContentLoaded', function() {
 function updatePost(id) {
     var newTitle = document.querySelector('.post-title-box').value;
     var newContent = document.querySelector('.post-comment-box').value;
+    var selectedTag = document.getElementById('tag-select').value;
 
-    // Validate title and content length
-    if (newTitle.length === 0 || newTitle.length > 300 || newContent.length === 0 || newContent.length > 1000) {
-        alert('Title must be between 1 and 100 characters, and content must be between 1 and 1000 characters.');
-        return;
+    var formData = new FormData();
+    formData.append('title', newTitle);
+    formData.append('content', newContent);
+    formData.append('tag', selectedTag);
+
+    var imageFile = document.getElementById('imageUpload').files[0];
+
+    if (imageFile) {
+        formData.append('image', imageFile);
+    } else {
+        // Append a special parameter to indicate image removal
+        formData.append('remove_image', 'true');
     }
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/update-post/' + id, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
 
     xhr.onreadystatechange = function () {
@@ -45,7 +53,8 @@ function updatePost(id) {
             }
         }
     };
-    xhr.send(JSON.stringify({ title: newTitle, content: newContent }));
+
+    xhr.send(formData);
 }
 
 function updateComment(id, post) {
@@ -78,7 +87,7 @@ function updateComment(id, post) {
 function createPost() {
     var title = document.querySelector('.post-title-box').value;
     var content = document.querySelector('.post-comment-box').value;
-    var tag = document.querySelector('#tag-select').value;
+    var tag = document.querySelector('#tag-select').value || 'None';
 
     if (title.trim().length === 0 || title.trim().length > 300) {
         alert('Title must be between 1 and 300 characters.');
@@ -90,31 +99,22 @@ function createPost() {
         return;
     }
 
+    var formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('tag', tag);
+
     var imageFile = document.getElementById('imageUpload').files[0];
-    var imageData = null;
-
     if (imageFile) {
-        imageData = {
-            name: imageFile.name,
-            type: imageFile.type,
-            data: imageFile
-        };
+        formData.append('image', imageFile);
     }
-
-    var postData = {
-        title: title,
-        content: content,
-        tag: tag,
-        image: imageData
-    };
 
     fetch('/create-post', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body: JSON.stringify(postData)
+        body: formData
     })
     .then(response => {
         if (response.ok) {
@@ -129,5 +129,6 @@ function createPost() {
         alert('An error occurred. Please try again later.');
     });
 }
+
 
 

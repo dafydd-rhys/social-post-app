@@ -1,47 +1,59 @@
-function updatePageCount() {
-    var currentPage = document.getElementById('currentPage').value;
+function updatePageCount(currentPage) {
+    document.getElementById('currentPage').value = currentPage;
     document.getElementById('pageCount').textContent = currentPage;
 }
 
 function prevPage() {
-    var currentPage = document.getElementById('currentPage');
+    var currentPage = parseInt(document.getElementById('currentPage').value);
     
-    if (currentPage.value > 1) {
-        currentPage.value--;
-        updatePageCount();
-        console.log(currentPage);
+    if (currentPage > 1) {
+        currentPage--;
+        updatePageCount(currentPage);
 
-        // Make an AJAX request to fetch the previous set of posts
         $.ajax({
             url: '/prevPage',
             type: 'GET',
-            data: { page: currentPage.value },
+            data: { page: currentPage },
             success: function(data) {
                 $('.post-container').empty();
                 $('.post-container').append(data);
+
+                var currentPage = document.getElementById('currentPage').value;
+                console.log(currentPage);
             },
-            error: function(xhr, status, error) {
+            error: function(xhr, _status, _error) {
                 console.error(xhr.responseText);
             }
         });
     }
 }
+
 function nextPage() {
-    var currentPage = document.getElementById('currentPage');
-    currentPage.value++;
-    updatePageCount();
-    console.log(currentPage);
+    var currentPage = parseInt(document.getElementById('currentPage').value);
+    currentPage++;
 
     $.ajax({
         url: '/nextPage', 
         type: 'GET',
-        data: { page: currentPage.value }, 
+        data: { page: currentPage }, 
         success: function(data) {
             $('.post-container').empty();
             $('.post-container').append(data);
+
+            var tempContainer = document.createElement('div');
+            tempContainer.innerHTML = data;
+            var currentPageElement = tempContainer.querySelector('#currentPage');
+            var currentPageValue = currentPageElement ? currentPageElement.value : null;
+
+            if (currentPageValue != null) {
+                updatePageCount(currentPageValue);
+            } else {
+                updatePageCount(currentPage);
+            } 
         },
-        error: function(xhr, status, error) {
+        error: function(xhr, _status, _error) {
             console.error(xhr.responseText);
         }
     });
 }
+

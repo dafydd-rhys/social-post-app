@@ -197,3 +197,8 @@ body {
     font-weight: 700;
     margin-left: 10px;  
 }
+
+.active-nav-link {
+    background-color: orange;
+    color: white; /* Adjust text color for visibility */
+}

@@ -6,22 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
+    
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('website_posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('website_posts_id')->constrained('website_posts')->onDelete('cascade');
+            $table->text('title');
             $table->text('content');
+            $table->string('image_path');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('website_posts');
     }
+
 };
-
-

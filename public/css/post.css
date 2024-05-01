@@ -66,6 +66,7 @@ body {
     -webkit-box-orient: vertical;
     padding-bottom: 5px;
     padding-top: 2.5px;
+    margin-top: 10px;
 }
 
 .back {
@@ -79,7 +80,6 @@ body {
 }
 
 .buttons {
-    margin-top: 10px;
     display: flex;
     align-items: start;
 }
@@ -245,8 +245,8 @@ body {
 .tag {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Aligns the content to the right */
-    width: 95%; /* Ensures the container occupies the full width */
+    justify-content: flex-end;
+    width: 95%;
     margin-top: 15px; 
 }
 
@@ -255,8 +255,54 @@ body {
     color: white;
 }
 
+.upload-name {
+    margin-left: 5px;
+    color: white;
+}
+
+
 .tag select {
     width: 160px; 
     padding: 5px;
     border-radius: 5px;
+}
+
+.tag-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 94%;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.tag-photo {
+    font-size: 14px;
+    font-weight: bold;
+    color: orangered;
+    text-decoration: none;
+}
+
+.photo-container {
+    margin-top: 6px;
+    width: 100%; /* Ensure the container fills its parent */
+    max-width: 550px;
+    max-height: 250px;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start; /* Aligns content to the left within the container */
+    color: #3e8e41;
+}
+
+.photo-container img {
+    width: 100%; /* Ensures the image doesn't exceed its original width */
+    max-height: auto;
+    object-fit: contain; 
+    /* object-position: left;*/
+}
+
+.remove-image-button {
+    background: transparent;
+    color: red;
+    font-weight: bold;
+    padding: 5px;
 }

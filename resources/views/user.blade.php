@@ -40,9 +40,10 @@
         <p class="role-content">{{ $user->role }}</p>
 
         <nav class="profile-nav">
-            <a href="{{ url('/user/' . $user->id) }}"><text class="a">Overview</text></a>
-            <a href="{{ url('/user/' . $user->id) }}/posts">Posts</a>
-            <a href="{{ url('/user/' . $user->id) }}/comments">Comments</a>
+            <a class = "nav-overview" href="{{ url('/user/' . $user->id) }}">Overview</a>
+            <a class = "nav-posts" href="{{ url('/user/' . $user->id) }}/posts">Posts</a>
+            <a class = "nav-comments" href="{{ url('/user/' . $user->id) }}/comments">Post Comments</a>
+            <a class = "nav-profile-comments" href="{{ url('/user/' . $user->id) }}/profile-comments">Profile Comments</a>
         </nav>
     </div>
     <div class="user-activity">
@@ -69,6 +70,21 @@
         @endforeach 
     </div>
 </div>
-
+<script>
+    $(document).ready(function() {
+        // Get the current URL
+        var currentUrl = window.location.href;
+        
+        if (currentUrl.endsWith("/posts")) {
+            $('.nav-posts').css('background-color', 'orangered');
+        } else if (currentUrl.endsWith("/comments")) {
+            $('.nav-comments').css('background-color', 'orangered');
+        } else if (currentUrl.endsWith("/profile-comments")) {
+            $('.nav-profile-comments').css('background-color', 'orangered');
+        } else {
+            $('.nav-overview').css('background-color', 'orangered');
+        }
+    });
+</script>
 </body>
 </html>

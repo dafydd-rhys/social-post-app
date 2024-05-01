@@ -16,6 +16,7 @@ class WebsitePostsFactory extends Factory
             'user_id' => User::all()->random()->id,
             'title' => $this->faker->sentence(),
             'content' => $this->faker->paragraph(),
+            'image_path' => '',
             'created_at' => now(),
             'updated_at' => now(),
         ];
