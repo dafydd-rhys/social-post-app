@@ -21,8 +21,7 @@
                                 <i class="fa-solid fa-sliders"></i>
                             </button>   
                             <div class="dropdown-content-c">
-                                <a href="#" class="save-option" onclick = "save()">Save</a>
-                                <a href="#" class="report-option" onclick = "report()">Report</a>
+                                <a href="#" class="visit-option" onclick = "visit('{{ $comment->commentable_type }}', '{{ $comment->commentable_id }}')">Visit</a>
 
                                 @if ($isAdmin || $isModerator || $isCreator)   
                                     <a href="javascript:void(0)" class="delete-option" onclick="deleteComment({{ $comment->id }})">Delete</a>

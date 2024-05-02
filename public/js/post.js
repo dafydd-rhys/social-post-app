@@ -1,20 +1,19 @@
-function save() {
-    
+function visit(commentableType, commentableId) {
+    if (commentableType.toLowerCase().includes('user')) {
+        window.location.href = '/user/' + commentableId;
+    } else {
+        window.location.href = '/post/' + commentableId;
+    }
 }
 
-function report() {
-    
-}
-
-function sendEmail(email) {
-    // Retrieve CSRF token from meta tag
+function sendNotification(email) {
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     $.ajax({
         url: '/send-email',
         method: 'POST',
         headers: {
-            'X-CSRF-TOKEN': csrfToken, // Include CSRF token in headers
+            'X-CSRF-TOKEN': csrfToken, 
         },
         data: {
             recipientEmail: email,
@@ -31,44 +30,41 @@ function sendEmail(email) {
 }
 
 
-async function comment(userId, id, post, posterEmail) {
-    try {
-        if (!userId || userId === 'null') {
-            alert('Please log in to comment.'); 
-            window.location.href = '/login';
-            return;
-        }
-
-        var commentContent = $('.comment-box').val();
-        if (commentContent.length === 0 || commentContent.length >= 500) {
-            alert('Comment must be between 1 and 500 characters.');
-            return;
-        }
-
-        var response = await fetch('/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                commentable_id: id,
-                commentable_type: post,
-                user_id: userId,
-                content: commentContent
-            })
-        });
-
-        if (response.ok) {
-            console.log('Comment posted successfully.');
-            sendEmail(posterEmail);
-            location.reload();
-        } else {
-            console.error('Failed to post comment.');
-        }
-    } catch (error) {
-        console.error('Error posting comment:', error);
+function comment(userId, id, post, posterEmail) {
+    if (!userId || userId === 'null') {
+        alert('Please log in to comment.'); 
+        window.location.href = '/login';
+        return;
     }
+
+    var commentContent = $('.comment-box').val();
+    if (commentContent.length === 0 || commentContent.length >= 500) {
+        alert('Comment must be between 1 and 500 characters.');
+        return;
+    }
+
+    $.ajax({
+        //web route
+        url: '/save',
+        type: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: JSON.stringify({
+            commentable_id: id,
+            commentable_type: post,
+            user_id: userId,
+            content: commentContent
+        }),
+        success: function(response) {
+            console.log(response);
+            sendNotification(posterEmail);
+        },
+        error: function(xhr, status, error) {
+            console.error('Failed to post comment:', error);
+        }
+    });
 }
 
 async function deletePost(postId) {

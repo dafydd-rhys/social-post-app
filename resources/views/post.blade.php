@@ -100,7 +100,7 @@
                 </div>
 
                 <div class="comment">
-                    <p class="user">Comment as {{ $user->title }}</p>
+                    <p class="user">Comment on post</p>
 
                     <textarea cols="30" rows="10" class="comment-box"></textarea>
                     <button class="comment-button" onclick="comment({{ $loggedIn ? $loggedIn->id : 'null' }}, {{ $post->id }}, true, '{{ $user->email }}')">
