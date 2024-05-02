@@ -56,9 +56,8 @@
                             <i class="fa-solid fa-sliders"></i>
                         </button>
                         <div class="dropdown-content">
-                            <a class="save-option" onclick = "save()">Save</a>
-                            <a class="report-option" onclick = "report()">Report</a>
-                            @if ($isAdmin || $isModerator)   
+                            <a class="save-option" href="/user/{{ $post->user->id }}">Visit</a>
+                            @if ($isAdmin || $isCreator)   
                                 <a href="{{ url('/') }}" class="delete-option" onclick="deletePost({{ $post->id }})">Delete</a>
                             @endif
                             @if ($isCreator)

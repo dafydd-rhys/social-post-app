@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('commentable_id');
             $table->string('commentable_type');
-            $table->unsignedBigInteger('user_id'); // The user who made the comment
+            $table->unsignedBigInteger('user_id');
             $table->text('content');
             $table->timestamps();
         });

@@ -29,7 +29,6 @@ function sendNotification(email) {
     });
 }
 
-
 function comment(userId, id, post, posterEmail) {
     if (!userId || userId === 'null') {
         alert('Please log in to comment.'); 

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\WebsitePosts;
 use App\Models\Comments;
+use App\Models\Profile;
 
 class User extends Authenticatable
 {
@@ -19,6 +20,11 @@ class User extends Authenticatable
 
     public function websitePosts() {
         return $this->hasMany(WebsitePosts::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 
     protected $fillable = [

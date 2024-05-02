@@ -15,7 +15,7 @@ body {
 }
 
 .post {
-    max-height:88vh;
+    height:88vh;
     overflow-y: auto;
     border-radius: 15px;
     padding: 15px;

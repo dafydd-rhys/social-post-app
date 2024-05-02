@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/home.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/post-card.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/weather.css') }}"> <!-- Include weather styles -->
     <script src="https://kit.fontawesome.com/84b3df78f4.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/post-card.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/home.css') }}">
     <script src="js/pagination.js"></script>
     <script src="{{ asset('js/weather.js') }}"></script>
+    <script src="{{ asset('js/quote.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#searchInput').on('keyup', function() {
@@ -29,6 +29,14 @@
     </script>
 </head>
 <body>
+    <div id="quoteOverlay" class="overlay" style="display: none;">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">X</span>
+            <h2>Inspirational Quote</h2>
+            <p id="quote">Loading...</p>
+        </div>
+    </div>
+
     <header class="main">
         <a href="{{ url('/') }}" class="app-container">
             <div>
@@ -37,13 +45,12 @@
             <div class="logo">SOCIAL-POST-APP</div>
         </a>
 
-        <!-- Weather Container -->
         <div class="weather-container">
             <div id="weather">
                 <div class="weather-info">
                     <div class="location">City</div>
                     <div class="weather-details">
-                        <img src="{{ asset('images/weather-icon.png') }}" alt="Weather Icon" class="weather-icon">
+                        <img src="" alt="Weather Icon" class="weather-icon">
                         <div class="temp-description">
                             <div class="temperature">Temperature</div>
                             <div class="description">Weather Description</div>

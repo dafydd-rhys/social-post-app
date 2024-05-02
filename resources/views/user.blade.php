@@ -36,7 +36,7 @@
 
 <div class="user-profile">
     <div class="user-content">
-        <img src="{{ asset('images/profile.png') }}" alt="Profile Picture" class="profile-pic">
+        <img src="{{ asset($user->profile->avatar) }}" alt="Profile Picture" class="profile-pic">
         <p class="username-content">{{ $user->name }}</p>
         <p class="role-content">{{ $user->role }}</p>
 
