@@ -44,14 +44,12 @@ class CommentsController extends Controller
             return response()->json(['message' => 'Commentable entity not found'], 404);
         }
 
-        // Create a new comment instance and fill it with user input
         $comment = new Comments([
             'user_id' => $request->user_id,
             'content' => $request->content,
         ]);
 
         try {
-            // Save the comment using the commentable relationship
             $commentable->comments()->save($comment);
 
             return response()->json(['message' => 'Comment saved successfully']);

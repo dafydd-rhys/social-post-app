@@ -301,15 +301,14 @@ body {
     max-height: 250px;
     overflow: hidden;
     display: flex;
-    justify-content: flex-start; /* Aligns content to the left within the container */
+    justify-content: flex-start; 
     color: #3e8e41;
 }
 
 .photo-container img {
-    width: 100%; /* Ensures the image doesn't exceed its original width */
+    width: 100%; 
     max-height: auto;
     object-fit: contain; 
-    /* object-position: left;*/
 }
 
 .remove-image-button {

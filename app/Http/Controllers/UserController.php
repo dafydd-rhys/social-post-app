@@ -20,7 +20,6 @@ class UserController extends Controller
         $comments = Comments::where('commentable_id', $userId)
                             ->where('commentable_type', User::class)
                             ->get();
-
         $posts = [];
 
         return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments, 'loggedIn' => $loggedInUser]);
@@ -51,7 +50,6 @@ class UserController extends Controller
         $comments = Comments::where('user_id', $userId)
                             ->where('commentable_type', WebsitePosts::class)
                             ->get();
-
         $posts = [];
 
         return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments, 'loggedIn' => $loggedInUser]);
@@ -68,7 +66,6 @@ class UserController extends Controller
         $comments = Comments::where('user_id', $userId)
                             ->where('commentable_type', User::class)
                             ->get();
-
         $posts = [];
 
         return view('user', ['user' => $user, 'posts' => $posts, 'comments' => $comments, 'loggedIn' => $loggedInUser]);

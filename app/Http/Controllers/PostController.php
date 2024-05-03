@@ -13,20 +13,11 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    /**
-     * Show the post with the given ID.
-     *
-     * @param  int  $postId
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($postId)
     {
         $post = WebsitePosts::findOrFail($postId);
-
-        // Retrieve comments using the polymorphic relationship
         $comments = $post->comments;
-
-        // Determine the logged-in user's role and ownership of the post
         $user = User::find($post->user_id);
         $loggedInUser = auth()->user();
         $isAdmin = $loggedInUser && $loggedInUser->role === 'admin';
@@ -51,7 +42,7 @@ class PostController extends Controller
         $totalPosts = WebsitePosts::count();
 
         if ($page < 1) {
-            $page = 1; // Set to first page if negative page number is requested
+            $page = 1;
         }
 
         if ($page > ceil($totalPosts / $perPage)) {
@@ -71,7 +62,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = WebsitePosts::find($id);
-        $post -> delete();
+        $post->delete();
     }
 
     public function edit($postId)
@@ -104,7 +95,6 @@ class PostController extends Controller
         }
     
         if ($request->hasFile('image')) {
-            // Upload a new image
             $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('images/posts'), $imageName);
@@ -115,7 +105,6 @@ class PostController extends Controller
             }
             $post->image_path = $imagePath;
         } elseif ($request->has('remove_image') && $request->remove_image === 'true') {
-            // Remove the existing image
             if ($post->image_path) {
                 Storage::delete('public/' . $post->image_path);
                 $post->image_path = '';
@@ -136,51 +125,48 @@ class PostController extends Controller
 
 
     public function store(Request $request)
-{
-    // Define custom validation rules for tags (array of strings)
-    $validator = Validator::make($request->all(), [
-        'title' => 'required|string|max:300',
-        'content' => 'required|string|max:1000',
-        'tags' => 'array',
-        'tags.*' => 'string|max:255',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:300',
+            'content' => 'required|string|max:1000',
+            'tags' => 'array',
+            'tags.*' => 'string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 400);
-    }
-
-    $imagePath = "";
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = time() . '_' . $image->getClientOriginalName();
-        $image->move(public_path('images/posts'), $imageName);
-        $imagePath = 'images/posts/' . $imageName;
-    }
-
-    $post = new WebsitePosts();
-    $post->title = $request->input('title');
-    $post->content = $request->input('content');
-    $post->image_path = $imagePath;
-    $post->user_id = auth()->user()->id;
-
-    try {
-        $post->save();
-
-        // Attach multiple tags if 'tags' array is present in the request
-        if ($request->has('tags') && is_array($request->tags)) {
-            foreach ($request->tags as $tagName) {
-                if (!empty($tagName)) {
-                    $tag = Tag::firstOrCreate(['name' => $tagName]);
-                    $post->tags()->attach($tag->id);
-                }
-            }
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        return response()->json(['message' => 'Post created successfully'], 200);
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'Failed to create post. ' . $e->getMessage()], 500);
+        $imagePath = "";
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/posts'), $imageName);
+            $imagePath = 'images/posts/' . $imageName;
+        }
+
+        $post = new WebsitePosts();
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->image_path = $imagePath;
+        $post->user_id = auth()->user()->id;
+
+        try {
+            $post->save();
+
+            if ($request->has('tags') && is_array($request->tags)) {
+                foreach ($request->tags as $tagName) {
+                    if (!empty($tagName)) {
+                        $tag = Tag::firstOrCreate(['name' => $tagName]);
+                        $post->tags()->attach($tag->id);
+                    }
+                }
+            }
+
+            return response()->json(['message' => 'Post created successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to create post. ' . $e->getMessage()], 500);
+        }
     }
-}
-    
 }
