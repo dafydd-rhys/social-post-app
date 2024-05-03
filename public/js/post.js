@@ -59,6 +59,7 @@ function comment(userId, id, post, posterEmail) {
         success: function(response) {
             console.log(response);
             sendNotification(posterEmail);
+            window.location.href = '/';
         },
         error: function(xhr, status, error) {
             console.error('Failed to post comment:', error);

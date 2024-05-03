@@ -9,6 +9,7 @@ use App\Models\WebsitePosts;
 use App\Models\Comments;
 use App\Models\User;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -86,7 +87,8 @@ class PostController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:300',
             'content' => 'required|string|max:1000',
-            'tag' => 'required|string',
+            'tags' => 'array',
+            'tags.*' => 'string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
     
@@ -94,8 +96,12 @@ class PostController extends Controller
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
     
-        $tag = Tag::firstOrCreate(['name' => $validatedData['tag']]);
-        $post->tags()->sync([$tag->id]);
+        foreach ($request->tags as $tagName) {
+            if (!empty($tagName)) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $post->tags()->attach($tag->id);
+            }
+        }
     
         if ($request->hasFile('image')) {
             // Upload a new image
@@ -121,8 +127,6 @@ class PostController extends Controller
         return response()->json(['message' => 'Post updated successfully'], 200);
     }
     
-    
-
     public function create()
     {
         $user = auth()->user();
@@ -132,40 +136,51 @@ class PostController extends Controller
 
 
     public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:300',
-            'content' => 'required|string|max:1000',
-            'tag' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-    
-        $imagePath = "";
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images/posts'), $imageName);
-            $imagePath = 'images/posts/' . $imageName;
-        }
-    
-        $post = new WebsitePosts();
-        $post->title = $validatedData['title'];
-        $post->content = $validatedData['content'];
-        $post->image_path = $imagePath;
-        $post->user_id = auth()->user()->id;
-    
-        try {
-            $post->save();
-    
-            if ($validatedData['tag'] !== 'None') {
-                $tag = Tag::firstOrCreate(['name' => $validatedData['tag']]);
-                $post->tags()->attach($tag->id);
-            }
-    
-            return response()->json(['message' => 'Post created successfully'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to create post. ' . $e->getMessage()], 500);
-        }
+{
+    // Define custom validation rules for tags (array of strings)
+    $validator = Validator::make($request->all(), [
+        'title' => 'required|string|max:300',
+        'content' => 'required|string|max:1000',
+        'tags' => 'array',
+        'tags.*' => 'string|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 400);
     }
+
+    $imagePath = "";
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('images/posts'), $imageName);
+        $imagePath = 'images/posts/' . $imageName;
+    }
+
+    $post = new WebsitePosts();
+    $post->title = $request->input('title');
+    $post->content = $request->input('content');
+    $post->image_path = $imagePath;
+    $post->user_id = auth()->user()->id;
+
+    try {
+        $post->save();
+
+        // Attach multiple tags if 'tags' array is present in the request
+        if ($request->has('tags') && is_array($request->tags)) {
+            foreach ($request->tags as $tagName) {
+                if (!empty($tagName)) {
+                    $tag = Tag::firstOrCreate(['name' => $tagName]);
+                    $post->tags()->attach($tag->id);
+                }
+            }
+        }
+
+        return response()->json(['message' => 'Post created successfully'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Failed to create post. ' . $e->getMessage()], 500);
+    }
+}
     
 }

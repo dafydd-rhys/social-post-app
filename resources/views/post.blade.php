@@ -68,24 +68,28 @@
                 </div>
 
                 <div class="card-content">
-                    <a href="/user/{{ $post->user->id }}" class="user">
-                        u/{{ $user->name }} • {{ $post->created_at }}
-                    </a>
-                    <h2 class="post-title">{{ $post->title }}</h2>
+    <a href="/user/{{ $post->user->id }}" class="user">
+        u/{{ $user->name }} • {{ $post->created_at }}
+    </a>
+    <h2 class="post-title">{{ $post->title }}</h2>
 
-                    <div class="photo-container">
-                        @if ($post->image_path)
-                            <img src="{{ asset($post->image_path) }}" alt="Post Image">
-                        @endif
-                    </div>
-                    <p class="post-content">{{ $post->content }}</p>
-                    <div class="tag-container">
-                        @php
-                            $tagName = ($post->tags->isNotEmpty()) ? $post->tags->first()->name : 'None';
-                        @endphp
-                        <a href="{{ route('post.show', ['postId' => $post->id]) }}" class="tag-photo">{{ $tagName }}</a>
-                    </div>
-                </div>
+    <div class="photo-container">
+        @if ($post->image_path)
+            <img src="{{ asset($post->image_path) }}" alt="Post Image">
+        @endif
+    </div>
+    
+    <p class="post-content">{{ $post->content }}</p>
+    
+    <div class="tag-container">
+        @if($post->tags->isNotEmpty())
+            <?php $tagName = $post->tags->pluck('name')->implode(', '); ?>
+            <a href="{{ route('post.show', ['postId' => $post->id]) }}" class="tag-photo {{ ($post->image_path) ? 'image-attached' : '' }}">{{ $tagName }}</a>
+        @else
+            <a href="{{ route('post.show', ['postId' => $post->id]) }}" class="tag-photo">None</a>
+        @endif
+    </div>
+</div>
 
                 <div class="buttons">
                     <button class="comments">

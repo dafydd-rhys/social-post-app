@@ -23,12 +23,15 @@ document.addEventListener('DOMContentLoaded', function() {
 function updatePost(id) {
     var newTitle = document.querySelector('.post-title-box').value;
     var newContent = document.querySelector('.post-comment-box').value;
-    var selectedTag = document.getElementById('tag-select').value;
+    var selectedTags = Array.from(document.getElementById('tag-select').selectedOptions).map(option => option.value);
 
     var formData = new FormData();
     formData.append('title', newTitle);
     formData.append('content', newContent);
-    formData.append('tag', selectedTag);
+
+    selectedTags.forEach(tag => {
+        formData.append('tags[]', tag);
+    });
 
     var imageFile = document.getElementById('imageUpload').files[0];
 
@@ -56,6 +59,7 @@ function updatePost(id) {
 
     xhr.send(formData);
 }
+
 
 function updateComment(id, previous) {
     var newContent = document.querySelector('.comment-box').value;
@@ -85,16 +89,16 @@ function updateComment(id, previous) {
 }
 
 function createPost() {
-    var title = document.querySelector('.post-title-box').value;
-    var content = document.querySelector('.post-comment-box').value;
-    var tag = document.querySelector('#tag-select').value || 'None';
+    var title = document.querySelector('.post-title-box').value.trim();
+    var content = document.querySelector('.post-comment-box').value.trim();
+    var selectedTags = Array.from(document.querySelector('#tag-select').selectedOptions).map(option => option.value);
 
-    if (title.trim().length === 0 || title.trim().length > 300) {
+    if (title.length === 0 || title.length > 300) {
         alert('Title must be between 1 and 300 characters.');
         return;
     }
 
-    if (content.trim().length === 0 || content.trim().length > 1000) {
+    if (content.length === 0 || content.length > 1000) {
         alert('Content must be between 1 and 1000 characters.');
         return;
     }
@@ -102,7 +106,11 @@ function createPost() {
     var formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
-    formData.append('tag', tag);
+
+    // Append each selected tag to the formData
+    selectedTags.forEach(tag => {
+        formData.append('tags[]', tag);
+    });
 
     var imageFile = document.getElementById('imageUpload').files[0];
     if (imageFile) {
@@ -129,6 +137,4 @@ function createPost() {
         alert('An error occurred. Please try again later.');
     });
 }
-
-
 

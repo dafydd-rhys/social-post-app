@@ -72,7 +72,7 @@
                 <p class="description-info"> / 1000</p>
 
                 <div class="tag">
-                    <select id="tag-select">
+                    <select id="tag-select" multiple>
                         <option value="None">Select Tag</option>
                         <option value="Technology">Technology</option>
                         <option value="Travel">Travel</option>

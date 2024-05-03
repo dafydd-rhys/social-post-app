@@ -1,42 +1,63 @@
-function fetchWeather() {
-    const apiKey = '6fb70c93789ecf9407193cbac2c63f0a'; 
-    const openWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather';
+document.addEventListener('DOMContentLoaded', async () => {
+    getUserLocation() 
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-
-                const weatherUrl = `${openWeatherUrl}?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-                fetch(weatherUrl)
-                    .then(response => response.json())
-                    .then(weatherData => {
-                        const city = weatherData.name;
-                        const temperatureKelvin = weatherData.main.temp;
-                        const description = weatherData.weather[0].description;
-                        const iconCode = weatherData.weather[0].icon;
-                        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
-                        const temperatureCelsius = (temperatureKelvin - 273.15).toFixed(1);
-
-                        document.querySelector('.location').textContent = city;
-                        document.querySelector('.weather-icon').src = iconUrl;
-                        document.querySelector('.temperature').textContent = `${temperatureCelsius}°C`;
-                        document.querySelector('.description').textContent = description;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching weather data:', error);
-                    });
-            },
-            error => {
-                console.error('Error retrieving location:', error);
-            }
-        );
-    } else {
-        console.error('Geolocation is not supported by this browser.');
+    function getUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    fetchWeatherData(latitude, longitude);
+                },
+                (error) => {
+                    console.error('Error getting user location:', error.message);
+                }
+            );
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+        }
     }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchWeather();
+    function fetchWeatherData(latitude, longitude) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch('/getWeatherData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken 
+            },
+            body: JSON.stringify({ latitude: latitude, longitude: longitude })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            updateUI(data);
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+        });
+    }
+
+    function updateUI(data) {
+        const locationElement = document.querySelector('.location');
+        const weatherIconElement = document.querySelector('.weather-icon');
+        const temperatureElement = document.querySelector('.temperature');
+        const descriptionElement = document.querySelector('.description');
+
+        locationElement.textContent = data.name;
+        if (data.weather_icon) {
+            weatherIconElement.src = `https://openweathermap.org/img/wn/${data.weather_icon}.png`;
+        }
+        if (data.temp_celsius) {
+            temperatureElement.textContent = `${data.temp_celsius}°C`;
+        }
+        if (data.description) {
+            descriptionElement.textContent = data.description;
+        }
+    }
 });

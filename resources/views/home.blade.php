@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/post-card.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/home.css') }}">
     <script src="js/pagination.js"></script>
-    <script src="{{ asset('js/weather.js') }}"></script>
+    <script src="js/weather.js"></script>
     <script src="{{ asset('js/quote.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -48,12 +48,12 @@
         <div class="weather-container">
             <div id="weather">
                 <div class="weather-info">
-                    <div class="location">City</div>
+                    <div class="location"></div>
                     <div class="weather-details">
                         <img src="" alt="Weather Icon" class="weather-icon">
                         <div class="temp-description">
-                            <div class="temperature">Temperature</div>
-                            <div class="description">Weather Description</div>
+                            <div class="temperature"></div>
+                            <div class="description"></div>
                         </div>
                     </div>
                 </div>
@@ -94,12 +94,15 @@
                         <p class="user">u/{{ $post->user->name }} • {{ $post->created_at }}</p>
                         <h2><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-title">{{ $post->title }}</a></h2>
                         <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="post-content">{{ $post->content }}</a></p>
-                        @php
+                        @if($post->tags->isNotEmpty())
+                        <?php
+                            $tagNames = $post->tags->pluck('name')->implode(', ');
                             $imageStatus = ($post->image_path === '') ? 'No Image' : 'Image Attached';
-                            $tagName = ($post->tags->isNotEmpty()) ? $post->tags->first()->name : 'None';
-                            $tagPhotoClass = ($imageStatus === 'Image Attached') ? 'tag-photo image-attached' : 'tag-photo';
-                        @endphp
-                        <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="{{ $tagPhotoClass }}">{{ $tagName }} • {{ $imageStatus }}</a></p>
+                        ?>
+                        <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="tag-photo {{ ($imageStatus === 'Image Attached') ? 'image-attached' : '' }}">{{ $tagNames }} • {{ $imageStatus }}</a></p>
+                        @else
+                            <p><a href="{{ route('post.show', ['postId' => $post->id]) }}" class="tag-photo">None • {{ ($post->image_path === '') ? 'No Image' : 'Image Attached' }}</a></p>
+                        @endif
                     </div>
                 </a>
             </div>
