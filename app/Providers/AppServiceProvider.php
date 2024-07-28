@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(WeatherService::class, function ($app) {
-            $apiKey = '6fb70c93789ecf9407193cbac2c63f0a';
+            $apiKey = ''//hidden;
             return new WeatherService($apiKey);
         });
     }
