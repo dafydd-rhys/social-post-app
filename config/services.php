@@ -3,7 +3,7 @@
 return [
 
     'openweathermap' => [
-        'api_key' => env('6fb70c93789ecf9407193cbac2c63f0a'),
+        'api_key' => env('WEATHER_API_KEY'),
     ],
 
     'postmark' => [
